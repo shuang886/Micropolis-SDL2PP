@@ -20,7 +20,9 @@ namespace
 
 EvaluationWindow::EvaluationWindow(SDL_Renderer* renderer):
     mFont{ new Font("res/raleway-medium.ttf", 14) },
+#ifndef TARGET_OS_MAC
     mTexture(loadTexture(renderer, "images/EvalWindow.png")),
+#endif
     mRenderer{ renderer }
 {
     size({ 511, 320 });

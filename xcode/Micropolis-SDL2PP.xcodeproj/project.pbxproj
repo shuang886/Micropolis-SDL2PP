@@ -155,9 +155,9 @@
 		57C37BA62958E52C0055BC50 /* FileIo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileIo.cpp; path = ../../src/FileIo.cpp; sourceTree = "<group>"; };
 		57C37BA72958E52C0055BC50 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = "<group>"; };
 		57C37BA82958E52C0055BC50 /* MiniMapWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MiniMapWindow.cpp; path = ../../src/MiniMapWindow.cpp; sourceTree = "<group>"; };
-		57C37BB12958E54D0055BC50 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_ttf.framework; sourceTree = "<group>"; };
-		57C37BB22958E54D0055BC50 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
-		57C37BB32958E54E0055BC50 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = "<group>"; };
+		57C37BB12958E54D0055BC50 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
+		57C37BB22958E54D0055BC50 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
+		57C37BB32958E54E0055BC50 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		57C37BBC2958EAA30055BC50 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../icons; sourceTree = "<group>"; };
 		57C37BBD2958EAA30055BC50 /* scenarios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenarios; path = ../scenarios; sourceTree = "<group>"; };
 		57C37BBE2958EAA30055BC50 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sounds; path = ../sounds; sourceTree = "<group>"; };
@@ -557,11 +557,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4GKJUD4LD9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					../../Frameworks/,
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
@@ -587,11 +588,12 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 4GKJUD4LD9;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
+					../../Frameworks/,
 				);
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
