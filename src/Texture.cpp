@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -40,4 +40,35 @@ Texture loadTexture(SDL_Renderer* renderer, const std::string& filename)
     SDL_QueryTexture(out, nullptr, nullptr, &width, &height);
 
     return Texture{ out, SDL_Rect{ 0, 0, width, height }, { width, height } };
+}
+
+
+Texture newTexture(SDL_Renderer* renderer, const Vector<int>& dimensions)
+{
+
+    SDL_Texture* texture = SDL_CreateTexture(renderer, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, dimensions.x, dimensions.y);
+
+    if (!texture)
+    {
+        std::cout << "newTexture(): Unable to create new texture: " << SDL_GetError() << std::endl;
+        throw std::runtime_error(std::string{ "newTexture() : Unable to create new texture : " } + SDL_GetError());
+    }
+
+    int width = 0, height = 0;
+    SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+
+    return Texture{ texture, SDL_Rect{ 0, 0, width, height }, { width, height } };
+}
+
+
+/**
+ * Clears a texture and sets alpha to 0.
+ */
+void flushTexture(SDL_Renderer* renderer, Texture& texture)
+{
+    SDL_SetRenderTarget(renderer, texture.texture);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_NONE);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 0);
+    SDL_RenderFillRect(renderer, &texture.area);
+    SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 }

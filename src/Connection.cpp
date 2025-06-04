@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -583,7 +583,7 @@ ToolResult CanConnectTile(int x, int y, Tool tool, Budget& budget)
         return ToolResult::InsufficientFunds;
     }
 
-    if ((AutoBulldoze) && (budget.CurrentFunds() > 0) && (Map[x][y] & BULLBIT))
+    if (autoBulldoze() && (budget.CurrentFunds() > 0) && (Map[x][y] & BULLBIT))
     {
         const int tile = NeutralizeRoad(Map[x][y]);
         // Maybe this should check BULLBIT instead of checking tile values?
@@ -627,7 +627,7 @@ ToolResult ConnectTile(int x, int y, Tool tool, Budget& budget)
     // AutoDoze
     if (tool == Tool::Rail || tool == Tool::Road || tool == Tool::Wire)
     {
-        if ((AutoBulldoze) && (budget.CurrentFunds() > 0) && (Tile & BULLBIT))
+        if (autoBulldoze() && (budget.CurrentFunds() > 0) && (Tile & BULLBIT))
         {
             Tile = NeutralizeRoad(Tile);
             // Maybe this should check BULLBIT instead of checking tile values?

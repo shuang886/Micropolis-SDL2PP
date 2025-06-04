@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -17,6 +17,8 @@
 #include "EvaluationWindow.h"
 #include "GraphWindow.h"
 #include "MiniMapWindow.h"
+#include "OptionsWindow.h"
+#include "QueryWindow.h"
 
 #include "CityProperties.h"
 #include "Colors.h"
@@ -47,6 +49,9 @@
 
 #include "Texture.h"
 #include "ToolPalette.h"
+
+#include "WindowGroup.h"
+#include "WindowStack.h"
 
 #include <algorithm>
 #include <cstdint>
@@ -143,12 +148,18 @@ namespace
     std::unique_ptr<EvaluationWindow> evaluationWindow;
     std::unique_ptr<MiniMapWindow> miniMapWindow;
     std::unique_ptr<ToolPalette> toolPalette;
+    std::unique_ptr<OptionsWindow> optionsWindow;
+    std::unique_ptr<QueryWindow> queryWindow;
     std::unique_ptr<StringRender> stringRenderer;
 
     std::unique_ptr<FileIo> fileIo;
 
     std::unique_ptr<Font> MainFont;
     std::unique_ptr<Font> MainBigFont;
+
+
+    WindowStack GuiWindowStack;
+    WindowGroup GuiModalWindows;
 
 
     unsigned int speedModifier()
@@ -195,16 +206,24 @@ namespace
             SDL_RemoveTimer(timer);
         }
     }
+
+    void showBudgetIfBudgetNeedsAttention()
+    {
+        if (!AutoBudget && budget.NeedsAttention())
+        {
+            budgetWindow->show();
+        }
+    }
 };
 
 
 namespace EventHandling
 {
+    Point<int> MouseDownPosition{};
     Point<int> MouseClickPosition{};
     Point<int> MousePosition{};
 
     bool MouseLeftDown{ false };
-    bool MouseClicked{ false };
 };
 
 
@@ -230,6 +249,30 @@ bool autoBudget()
 void autoBudget(const bool b)
 {
     AutoBudget = b;
+}
+
+
+bool autoBulldoze()
+{
+    return AutoBulldoze;
+}
+
+
+void autoBulldoze(const bool b)
+{
+    AutoBulldoze = b;
+}
+
+
+bool disastersEnabled()
+{
+    return NoDisasters;
+}
+
+
+void disastersEnabled(const bool b)
+{
+    NoDisasters = b;
 }
 
 
@@ -267,7 +310,12 @@ void simUpdate()
 {
     updateDate();
 
-    if (newMonth() && graphWindow->visible()) { graphWindow->update(); }
+    if (newMonth() && graphWindow->visible())
+    {
+        graphWindow->update();
+    }
+
+    showBudgetIfBudgetNeedsAttention();
 
     scoreDoer(cityProperties);
 }
@@ -275,9 +323,6 @@ void simUpdate()
 
 void simLoop(bool doSim)
 {
-    // \fixme Find a better way to do this
-    if (budgetWindow->visible()) { return; }
-
     if (doSim)
     {
         SimFrame(cityProperties, budget);
@@ -341,9 +386,9 @@ void simInit()
     StartingYear = 1900;
     AutoGotoMessageLocation(true);
     CityTime = 50;
-    NoDisasters = false;
-    AutoBulldoze = true;
-    AutoBudget = false;
+    disastersEnabled(true);
+    autoBulldoze(true);
+    autoBudget(true);
     MessageId(NotificationId::None);
     ClearMes();
     SimSpeed(SimulationSpeed::Normal);
@@ -413,6 +458,41 @@ void resetGame()
 }
 
 
+void newGame()
+{
+    fileIo->clearSaveFilename();
+    resetGame();
+    DrawBigMap();
+}
+
+
+void openGame()
+{
+    if (fileIo->pickOpenFile())
+    {
+        resetGame();
+        LoadCity(fileIo->fullPath(), cityProperties, budget);
+        DrawBigMap();
+    }
+}
+
+
+void saveGame()
+{
+    if (!fileIo->filePicked() || SDL_GetModState() & KMOD_SHIFT)
+    {
+        if (!fileIo->pickSaveFile())
+        {
+            {
+                return;
+            }
+        }
+    }
+
+    SaveCity(fileIo->fullPath(), cityProperties, budget);
+}
+
+
 void buildBigTileset()
 {
     SDL_Surface* srcSurface = IMG_Load("images/tiles.xpm");
@@ -461,8 +541,8 @@ void loadGraphics()
 
 void loadFonts()
 {
-    MainFont = std::make_unique<Font>("res/raleway-medium.ttf", 12);
-    MainBigFont = std::make_unique<Font>("res/raleway-medium.ttf", 14);
+    MainFont = std::make_unique<Font>("res/Raleway-Medium.ttf", 12);
+    MainBigFont = std::make_unique<Font>("res/Raleway-Medium.ttf", 14);
 }
 
 
@@ -521,6 +601,7 @@ void windowResized(const Vector<int>& size)
     centerWindow(*budgetWindow);
     centerWindow(*graphWindow);
     centerWindow(*evaluationWindow);
+    centerWindow(*optionsWindow);
 
     UiHeaderRect.w = WindowSize.x - 20;
 }
@@ -532,8 +613,8 @@ void calculateMouseToWorld()
     
     TilePointedAt =
     {
-       screenCell.x + (MapViewOffset.x / TileSize),
-       screenCell.y + (MapViewOffset.y / TileSize)
+       std::clamp(screenCell.x + (MapViewOffset.x / TileSize), 0, SimWidth - 1),
+       std::clamp(screenCell.y + (MapViewOffset.y / TileSize), 0, SimHeight - 1)
     };
 
     TileHighlight =
@@ -547,65 +628,120 @@ void calculateMouseToWorld()
 }
 
 
+bool IgnoreToolMouseUp(Point<int>& mousePosition)
+{
+    for (auto rect : UiRects)
+    {
+        if (pointInRect(mousePosition, *rect))
+        {
+            return true;
+        }
+    }
+
+    if (GuiWindowStack.pointInWindow(EventHandling::MousePosition))
+    {
+        return true;
+    }
+
+    if (EventHandling::MouseDownPosition != EventHandling::MousePosition &&
+        GuiWindowStack.pointInWindow(EventHandling::MouseDownPosition))
+    {
+        return true;
+    }
+
+    return false;
+}
+
+
+void ShowWindowAndBringToFront(WindowBase& window)
+{
+    window.toggleVisible();
+    GuiWindowStack.bringToFront(&window);
+    if (window.visible()) { window.update(); }
+}
+
+
+void SetSpeed(SimulationSpeed speed)
+{
+    if (Paused())
+    {
+        Resume();
+    }
+
+    SimSpeed(speed);
+}
+
+
+void TogglePause()
+{
+    Paused() ? Resume() : Pause();
+}
+
+
+void ToggleMiniMapVisibility()
+{
+    miniMapWindow->hidden() ? miniMapWindow->show() : miniMapWindow->hide();
+}
+
+
+void showEvaluationWindow()
+{
+    evaluationWindow->setEvaluation(currentEvaluation());
+    currentEvaluationSeen();
+    ShowWindowAndBringToFront(*evaluationWindow.get());
+}
+
+
 void handleKeyEvent(SDL_Event& event)
 {
+    if (optionsWindow->visible())
+    {
+        optionsWindow->injectKeyDown(event.key.keysym.sym);
+        return;
+    }
+
     switch (event.key.keysym.sym)
     {
     case SDLK_ESCAPE:
-        budgetWindow->hide();
-        evaluationWindow->hide();
-        graphWindow->hide();
+        GuiWindowStack.hide();
+        GuiModalWindows.hide();
+
+        optionsWindow->setOptions({ autoBudget(), autoBulldoze(), autoGoto(), disastersEnabled(), false, false });
+        optionsWindow->show();
         break;
 
     case SDLK_0:
     case SDLK_p:
     case SDLK_SPACE:
-        Paused() ? Resume() : Pause();
+        TogglePause();
         break;
 
     case SDLK_1:
-        if (Paused()) { Resume(); }
-        SimSpeed(SimulationSpeed::Slow);
+        SetSpeed(SimulationSpeed::Slow);
         break;
 
     case SDLK_2:
-        if (Paused()) { Resume(); }
-        SimSpeed(SimulationSpeed::Normal);
+        SetSpeed(SimulationSpeed::Normal);
         break;
 
     case SDLK_3:
-        if (Paused()) { Resume(); }
-        SimSpeed(SimulationSpeed::Fast);
+        SetSpeed(SimulationSpeed::Fast);
         break;
 
     case SDLK_4:
-        if (Paused()) { Resume(); }
-        SimSpeed(SimulationSpeed::AfricanSwallow);
+        SetSpeed(SimulationSpeed::AfricanSwallow);
         break;
 
     case SDLK_F2:
-        if (!fileIo->filePicked() || SDL_GetModState() & KMOD_SHIFT)
-        {
-            if (!fileIo->pickSaveFile())
-            {
-                break;
-            }
-        }
-
-        SaveCity(fileIo->fullPath(), cityProperties, budget);
+        saveGame();
         break;
 
     case SDLK_F3:
-        if (fileIo->pickOpenFile())
-        {
-            resetGame();
-            LoadCity(fileIo->fullPath(), cityProperties, budget);
-            DrawBigMap();
-        }
+        openGame();
         break;
 
     case SDLK_F4:
-        miniMapWindow->hidden() ? miniMapWindow->show() : miniMapWindow->hide();
+        ToggleMiniMapVisibility();
         break;
 
     case SDLK_F5:
@@ -617,23 +753,23 @@ void handleKeyEvent(SDL_Event& event)
         break;
 
     case SDLK_F7:
-        resetGame();
-        DrawBigMap();
+        newGame();
         break;
 
     case SDLK_F9:
-        graphWindow->toggleVisible();
-        if (graphWindow) { graphWindow->update(); }
+        ShowWindowAndBringToFront(*graphWindow.get());
         break;
 
     case SDLK_F10:
-        budgetWindow->toggleVisible();
-        if (budgetWindow->visible()) { budgetWindow->update(); }
+        ShowWindowAndBringToFront(*budgetWindow.get());
         break;
-            
+
+    case SDLK_F11:
+        ShowWindowAndBringToFront(*queryWindow.get());
+        break;
+
     case SDLK_F1:
-        evaluationWindow->toggleVisible();
-        if(evaluationWindow->visible()) { budgetWindow->update(); }
+        showEvaluationWindow();
         break;
 
     default:
@@ -648,7 +784,7 @@ void handleMouseEvent(SDL_Event& event)
     if (event.window.windowID != MainWindowId) { return; }
 
     Vector<int> mouseMotionDelta{};
-    Point<int> mousePosition = { EventHandling::MousePosition.x, EventHandling::MousePosition.y };
+    Point<int> mousePosition = EventHandling::MousePosition;
 
     switch (event.type)
     {
@@ -665,7 +801,7 @@ void handleMouseEvent(SDL_Event& event)
 
         calculateMouseToWorld();
 
-        if (graphWindow->visible()) { graphWindow->injectMouseMotion(mouseMotionDelta); }
+        GuiWindowStack.injectMouseMotion(mouseMotionDelta);
 
         if ((SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_RMASK) != 0)
         {
@@ -680,6 +816,7 @@ void handleMouseEvent(SDL_Event& event)
         if (event.button.button == SDL_BUTTON_LEFT)
         {
             EventHandling::MouseLeftDown = true;
+            EventHandling::MouseDownPosition = { event.motion.x, event.motion.y };
 
             for (auto rect : UiRects)
             {
@@ -689,21 +826,25 @@ void handleMouseEvent(SDL_Event& event)
                 }
             }
 
+            if (GuiWindowStack.pointInWindow(EventHandling::MousePosition))
+            {
+                GuiWindowStack.updateStack(EventHandling::MousePosition);
+                GuiWindowStack.front()->injectMouseDown(EventHandling::MousePosition);
+                return;
+            }
+
             toolStart(TilePointedAt);
-
-            if (budgetWindow->area().contains(mousePosition))
-            {
-                budgetWindow->injectMouseDown(mousePosition);
-            }
-
-            if (graphWindow->area().contains(mousePosition))
-            {
-                graphWindow->injectMouseDown(mousePosition);
-            }
-
+            
             if (!budgetWindow->visible() && !pendingToolProperties().draggable)
             {
                 ToolDown(TilePointedAt, budget);
+            }
+
+            if (pendingTool() == Tool::Query)
+            {
+                GuiWindowStack.bringToFront(queryWindow.get());
+                queryWindow->setQueryResult(queryResult());
+                queryWindow->show();
             }
         }
         break;
@@ -714,17 +855,11 @@ void handleMouseEvent(SDL_Event& event)
             EventHandling::MouseLeftDown = false;
             EventHandling::MouseClickPosition = { event.button.x, event.button.y };
 
-            EventHandling::MouseClicked = true;
+            GuiWindowStack.injectMouseUp();
 
-            if (budgetWindow->visible()) { budgetWindow->injectMouseUp(); }
-            if (graphWindow->visible()) { graphWindow->injectMouseUp(); }
-
-            for (auto rect : UiRects)
+            if (IgnoreToolMouseUp(mousePosition))
             {
-                if (pointInRect(mousePosition, *rect))
-                {
-                    return;
-                }
+                return;
             }
 
             toolEnd(TilePointedAt);
@@ -938,6 +1073,10 @@ void DrawPendingTool(const ToolPalette& palette)
 void drawDraggableToolVector()
 {
     if (!EventHandling::MouseLeftDown) { return; }
+    if (GuiWindowStack.pointInWindow(EventHandling::MouseDownPosition))
+    {
+        return;
+    }
     
     SDL_Rect toolRect
     {
@@ -974,6 +1113,17 @@ void gameInit()
 
     updateMapDrawParameters();
     initTimers();
+}
+
+
+void optionsChanged(const OptionsWindow::Options& options)
+{
+    autoBudget(options.autoBudget);
+    autoBulldoze(options.autoBulldoze);
+    autoGoto(options.autoGoto);
+    disastersEnabled(options.disastersEnabled);
+
+    /// \todo Add music/sound playback options
 }
 
 
@@ -1019,7 +1169,26 @@ void initUI()
     evaluationWindow = std::make_unique<EvaluationWindow>(MainWindowRenderer);
     centerWindow(*evaluationWindow);
 
-    UiRects.push_back(&toolPalette->rect());
+    optionsWindow = std::make_unique<OptionsWindow>(MainWindowRenderer);
+    centerWindow(*optionsWindow);
+    optionsWindow->optionsChangedConnect(optionsChanged);
+    optionsWindow->newGameCallbackConnect(newGame);
+    optionsWindow->saveGameCallbackConnect(saveGame);
+    optionsWindow->openGameCallbackConnect(openGame);
+
+    queryWindow = std::make_unique<QueryWindow>(MainWindowRenderer);
+    centerWindow(*queryWindow);
+
+    GuiWindowStack.addWindow(budgetWindow.get());
+    GuiWindowStack.addWindow(evaluationWindow.get());
+    GuiWindowStack.addWindow(graphWindow.get());
+    GuiWindowStack.addWindow(toolPalette.get());
+    GuiWindowStack.addWindow(optionsWindow.get());
+    GuiWindowStack.addWindow(queryWindow.get());
+
+    GuiModalWindows.addWindow(optionsWindow.get());
+    GuiModalWindows.addWindow(budgetWindow.get());
+
     UiRects.push_back(&UiHeaderRect);
 }
 
@@ -1043,46 +1212,42 @@ void GameLoop()
 
     while (!Exit)
     {
-        pendingTool(toolPalette->tool());
-
-        simLoop(SimulationStep);
-
         pumpEvents();
-
-        currentBudget = NumberToDollarDecimal(budget.CurrentFunds());
 
         SDL_RenderClear(MainWindowRenderer);
         SDL_RenderCopy(MainWindowRenderer, MainMapTexture.texture, &FullMapViewRect, nullptr);
+
+        currentBudget = NumberToDollarDecimal(budget.CurrentFunds());
+
+        pendingTool(toolPalette->tool());
         drawSprites();
 
-        if (budget.NeedsAttention() || budgetWindow->visible())
+        if (GuiModalWindows.windowVisible())
         {
             SDL_SetRenderDrawColor(MainWindowRenderer, 0, 0, 0, 175);
             SDL_RenderFillRect(MainWindowRenderer, nullptr);
-            budgetWindow->draw();
-
-            if (budgetWindow->accepted())
-            {
-                budgetWindow->reset();
-                budgetWindow->hide();
-            }
+            
+            GuiModalWindows.draw();
         }
         else
         {
-            DrawPendingTool(*toolPalette);
-            drawDraggableToolVector();
+            if (!GuiWindowStack.pointInWindow(EventHandling::MousePosition))
+            {
+                DrawPendingTool(*toolPalette);
+                drawDraggableToolVector();
+            }
 
             drawTopUi();
 
-            if (EventHandling::MouseClicked)
+            if (currentEvaluation().needsAttention)
             {
-                EventHandling::MouseClicked = false;
-                toolPalette->injectMouseClickPosition(EventHandling::MouseClickPosition);
+                evaluationWindow->setEvaluation(currentEvaluation());
+                currentEvaluationSeen();
             }
-            toolPalette->draw();
 
-            if (graphWindow->visible()) { graphWindow->draw(); }
-            if (evaluationWindow->visible()) { evaluationWindow->draw(); }
+            GuiWindowStack.draw();
+
+            simLoop(SimulationStep);
         }
 
         SDL_RenderPresent(MainWindowRenderer);
@@ -1097,7 +1262,7 @@ int main(int argc, char* argv[])
 {
     std::cout << "Starting Micropolis-SDL2 version " << MicropolisVersion << " originally by Will Wright and Don Hopkins." << std::endl;
     std::cout << "Original code Copyright (C) 2002 by Electronic Arts, Maxis. Released under the GPL v3" << std::endl;
-    std::cout << "Modifications Copyright (C) 2022 by Leeor Dicker. Available under the terms of the GPL v3" << std::endl << std::endl;
+    std::cout << "Modifications Copyright (C) 2022 - 2024 by Leeor Dicker. Available under the terms of the GPL v3" << std::endl << std::endl;
     
     std::cout << "Micropolis-SDL2 is not afiliated with Electronic Arts." << std::endl << std::endl;
 
@@ -1125,7 +1290,7 @@ int main(int argc, char* argv[])
 
         SDL_Quit();
     }
-    catch(std::exception e)
+    catch(const std::exception& e)
     {
         std::string message(std::string(e.what()) + "\n\nMicropolis-SDL2PP will now close.");
         

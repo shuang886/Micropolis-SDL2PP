@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -48,7 +48,7 @@ namespace
     constexpr auto POWERED = 1;
     constexpr auto CONDUCTIVE = 2;
 
-    constexpr SDL_Color BackgroundColor{ 126, 163, 217, 255 };
+    constexpr SDL_Color BackgroundColor{ 228, 228, 228, 255 };
 
     std::array<SDL_Color, 3> PowerColorTable =
     { {

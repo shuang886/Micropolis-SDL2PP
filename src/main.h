@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -69,9 +69,6 @@ extern int ShakeNow;
 
 extern int RoadEffect, PoliceEffect, FireEffect;
 
-extern bool NoDisasters;
-extern bool AutoBulldoze;
-
 extern int DisasterEvent;
 extern int DisasterWait;
 
@@ -97,6 +94,12 @@ void autoBudget(const bool b);
 
 bool autoGoto();
 void autoGoto(const bool b);
+
+bool autoBulldoze();
+void autoBulldoze(const bool b);
+
+bool disastersEnabled();
+void disastersEnabled(const bool b);
 
 bool animationEnabled();
 void animationEnabled(bool b);

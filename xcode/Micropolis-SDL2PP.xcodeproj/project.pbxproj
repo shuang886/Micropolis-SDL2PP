@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5718EAB92B551047008A62B8 /* include in Resources */ = {isa = PBXBuildFile; fileRef = 5718EAB72B551047008A62B8 /* include */; };
+		5718EABA2B551047008A62B8 /* nfd_cocoa.m in Sources */ = {isa = PBXBuildFile; fileRef = 5718EAB82B551047008A62B8 /* nfd_cocoa.m */; };
+		5718EABC2B552B74008A62B8 /* QueryWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5718EABB2B552B74008A62B8 /* QueryWindow.cpp */; };
+		57B5F54D2B2BECC300683BF7 /* WindowStack.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57B5F54B2B2BECC300683BF7 /* WindowStack.cpp */; };
+		57B5F54F2B2BEDBD00683BF7 /* WindowBase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57B5F54E2B2BEDBD00683BF7 /* WindowBase.cpp */; };
 		57C37B2C2958E47C0055BC50 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 57C37B2B2958E47C0055BC50 /* Assets.xcassets */; };
 		57C37B2F2958E47C0055BC50 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 57C37B2D2958E47C0055BC50 /* MainMenu.xib */; };
 		57C37B842958E4FF0055BC50 /* w_resrc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57C37B382958E4FE0055BC50 /* w_resrc.cpp */; };
@@ -54,6 +59,7 @@
 		57C37BC52958EAA30055BC50 /* images in Resources */ = {isa = PBXBuildFile; fileRef = 57C37BBF2958EAA30055BC50 /* images */; };
 		57C37BC62958EAA30055BC50 /* res in Resources */ = {isa = PBXBuildFile; fileRef = 57C37BC02958EAA30055BC50 /* res */; };
 		57C37BC72958EAA30055BC50 /* micropolis.ico in Resources */ = {isa = PBXBuildFile; fileRef = 57C37BC12958EAA30055BC50 /* micropolis.ico */; };
+		57E2ED752B5E219000E7E8B6 /* OptionsWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57E2ED742B5E219000E7E8B6 /* OptionsWindow.cpp */; };
 		57E8E893295E9CCE0062D57B /* EvaluationWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 57E8E892295E9CCE0062D57B /* EvaluationWindow.cpp */; };
 /* End PBXBuildFile section */
 
@@ -74,6 +80,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		5718EAB72B551047008A62B8 /* include */ = {isa = PBXFileReference; lastKnownFileType = folder; name = include; path = "../../nativefiledialog-extended/src/include"; sourceTree = "<group>"; };
+		5718EAB82B551047008A62B8 /* nfd_cocoa.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = nfd_cocoa.m; path = "../../nativefiledialog-extended/src/nfd_cocoa.m"; sourceTree = "<group>"; };
+		5718EABB2B552B74008A62B8 /* QueryWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = QueryWindow.cpp; path = ../../src/QueryWindow.cpp; sourceTree = "<group>"; };
+		5718EABD2B552B7D008A62B8 /* QueryWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = QueryWindow.h; path = ../../src/QueryWindow.h; sourceTree = "<group>"; };
+		57B5F54B2B2BECC300683BF7 /* WindowStack.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowStack.cpp; path = ../../src/WindowStack.cpp; sourceTree = "<group>"; };
+		57B5F54C2B2BECC300683BF7 /* WindowStack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = WindowStack.h; path = ../../src/WindowStack.h; sourceTree = "<group>"; };
+		57B5F54E2B2BEDBD00683BF7 /* WindowBase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = WindowBase.cpp; path = ../../src/WindowBase.cpp; sourceTree = "<group>"; };
 		57C37B252958E47B0055BC50 /* Micropolis-SDL2PP.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Micropolis-SDL2PP.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		57C37B2B2958E47C0055BC50 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		57C37B2E2958E47C0055BC50 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
@@ -155,15 +168,17 @@
 		57C37BA62958E52C0055BC50 /* FileIo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = FileIo.cpp; path = ../../src/FileIo.cpp; sourceTree = "<group>"; };
 		57C37BA72958E52C0055BC50 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../src/main.cpp; sourceTree = "<group>"; };
 		57C37BA82958E52C0055BC50 /* MiniMapWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MiniMapWindow.cpp; path = ../../src/MiniMapWindow.cpp; sourceTree = "<group>"; };
-		57C37BB12958E54D0055BC50 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
-		57C37BB22958E54D0055BC50 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
-		57C37BB32958E54E0055BC50 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../Frameworks/SDL2.framework; sourceTree = "<group>"; };
+		57C37BB12958E54D0055BC50 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_ttf.framework; sourceTree = "<group>"; };
+		57C37BB22958E54D0055BC50 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2_image.framework; sourceTree = "<group>"; };
+		57C37BB32958E54E0055BC50 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SDL2.framework; sourceTree = "<group>"; };
 		57C37BBC2958EAA30055BC50 /* icons */ = {isa = PBXFileReference; lastKnownFileType = folder; name = icons; path = ../icons; sourceTree = "<group>"; };
 		57C37BBD2958EAA30055BC50 /* scenarios */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenarios; path = ../scenarios; sourceTree = "<group>"; };
 		57C37BBE2958EAA30055BC50 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sounds; path = ../sounds; sourceTree = "<group>"; };
 		57C37BBF2958EAA30055BC50 /* images */ = {isa = PBXFileReference; lastKnownFileType = folder; name = images; path = ../images; sourceTree = "<group>"; };
 		57C37BC02958EAA30055BC50 /* res */ = {isa = PBXFileReference; lastKnownFileType = folder; name = res; path = ../res; sourceTree = "<group>"; };
 		57C37BC12958EAA30055BC50 /* micropolis.ico */ = {isa = PBXFileReference; lastKnownFileType = image.ico; name = micropolis.ico; path = ../micropolis.ico; sourceTree = "<group>"; };
+		57E2ED742B5E219000E7E8B6 /* OptionsWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OptionsWindow.cpp; path = ../../src/OptionsWindow.cpp; sourceTree = "<group>"; };
+		57E2ED762B5E21A900E7E8B6 /* OptionsWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = OptionsWindow.h; path = ../../src/OptionsWindow.h; sourceTree = "<group>"; };
 		57E8E891295E9A4C0062D57B /* EvaluationWindow.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = EvaluationWindow.h; path = ../../src/EvaluationWindow.h; sourceTree = "<group>"; };
 		57E8E892295E9CCE0062D57B /* EvaluationWindow.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = EvaluationWindow.cpp; path = ../../src/EvaluationWindow.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -182,6 +197,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5718EAB62B551022008A62B8 /* NativeFileDialog */ = {
+			isa = PBXGroup;
+			children = (
+				5718EAB72B551047008A62B8 /* include */,
+				5718EAB82B551047008A62B8 /* nfd_cocoa.m */,
+			);
+			name = NativeFileDialog;
+			sourceTree = "<group>";
+		};
 		57C37B1C2958E47B0055BC50 = {
 			isa = PBXGroup;
 			children = (
@@ -203,6 +227,7 @@
 		57C37B272958E47B0055BC50 /* Micropolis-SDL2PP */ = {
 			isa = PBXGroup;
 			children = (
+				5718EAB62B551022008A62B8 /* NativeFileDialog */,
 				57C37B6E2958E4FF0055BC50 /* Budget.cpp */,
 				57C37BA32958E52C0055BC50 /* BudgetWindow.cpp */,
 				57C37BA42958E52C0055BC50 /* Connection.cpp */,
@@ -216,7 +241,9 @@
 				57C37BA72958E52C0055BC50 /* main.cpp */,
 				57C37B622958E4FE0055BC50 /* Map.cpp */,
 				57C37BA82958E52C0055BC50 /* MiniMapWindow.cpp */,
+				57E2ED742B5E219000E7E8B6 /* OptionsWindow.cpp */,
 				57C37B6B2958E4FF0055BC50 /* Power.cpp */,
+				5718EABB2B552B74008A62B8 /* QueryWindow.cpp */,
 				57C37BA22958E52C0055BC50 /* Rectangle.cpp */,
 				57C37B772958E4FF0055BC50 /* s_alloc.cpp */,
 				57C37B782958E4FF0055BC50 /* s_disast.cpp */,
@@ -236,6 +263,8 @@
 				57C37B4D2958E4FE0055BC50 /* w_tk.cpp */,
 				57C37B582958E4FE0055BC50 /* w_update.cpp */,
 				57C37B442958E4FE0055BC50 /* w_util.cpp */,
+				57B5F54E2B2BEDBD00683BF7 /* WindowBase.cpp */,
+				57B5F54B2B2BECC300683BF7 /* WindowStack.cpp */,
 				57C37B462958E4FE0055BC50 /* Zone.cpp */,
 				57C37B322958E47C0055BC50 /* Micropolis_SDL2PP.entitlements */,
 				57C37B3F2958E4FE0055BC50 /* animtab.h */,
@@ -257,9 +286,11 @@
 				57C37B5C2958E4FE0055BC50 /* main.h */,
 				57C37B812958E4FF0055BC50 /* Map.h */,
 				57C37B5D2958E4FE0055BC50 /* MiniMapWindow.h */,
+				57E2ED762B5E21A900E7E8B6 /* OptionsWindow.h */,
 				57C37B7F2958E4FF0055BC50 /* Point.h */,
 				57C37B632958E4FE0055BC50 /* PointInRectangleRange.h */,
 				57C37B682958E4FF0055BC50 /* Power.h */,
+				5718EABD2B552B7D008A62B8 /* QueryWindow.h */,
 				57C37B5E2958E4FE0055BC50 /* Rectangle.h */,
 				57C37B432958E4FE0055BC50 /* s_alloc.h */,
 				57C37B452958E4FE0055BC50 /* s_disast.h */,
@@ -282,6 +313,7 @@
 				57C37B7A2958E4FF0055BC50 /* w_update.h */,
 				57C37B7B2958E4FF0055BC50 /* w_util.h */,
 				57C37B5A2958E4FE0055BC50 /* WindowBase.h */,
+				57B5F54C2B2BECC300683BF7 /* WindowStack.h */,
 				57C37B3A2958E4FE0055BC50 /* Zone.h */,
 				57C37B2B2958E47C0055BC50 /* Assets.xcassets */,
 				57C37B2D2958E47C0055BC50 /* MainMenu.xib */,
@@ -376,6 +408,7 @@
 				57C37BC32958EAA30055BC50 /* scenarios in Resources */,
 				57C37BC22958EAA30055BC50 /* icons in Resources */,
 				57C37BC62958EAA30055BC50 /* res in Resources */,
+				5718EAB92B551047008A62B8 /* include in Resources */,
 				57C37B2C2958E47C0055BC50 /* Assets.xcassets in Resources */,
 				57C37B2F2958E47C0055BC50 /* MainMenu.xib in Resources */,
 			);
@@ -406,6 +439,7 @@
 				57C37B9F2958E4FF0055BC50 /* s_alloc.cpp in Sources */,
 				57C37B952958E4FF0055BC50 /* s_gen.cpp in Sources */,
 				57C37BA92958E52C0055BC50 /* Rectangle.cpp in Sources */,
+				57B5F54F2B2BEDBD00683BF7 /* WindowBase.cpp in Sources */,
 				57C37B872958E4FF0055BC50 /* w_util.cpp in Sources */,
 				57C37B882958E4FF0055BC50 /* Zone.cpp in Sources */,
 				57C37B9B2958E4FF0055BC50 /* Budget.cpp in Sources */,
@@ -415,7 +449,11 @@
 				57C37B892958E4FF0055BC50 /* s_msg.cpp in Sources */,
 				57C37B942958E4FF0055BC50 /* s_sim.cpp in Sources */,
 				57C37B8D2958E4FF0055BC50 /* Graphics.cpp in Sources */,
+				5718EABC2B552B74008A62B8 /* QueryWindow.cpp in Sources */,
+				57B5F54D2B2BECC300683BF7 /* WindowStack.cpp in Sources */,
+				57E2ED752B5E219000E7E8B6 /* OptionsWindow.cpp in Sources */,
 				57C37B972958E4FF0055BC50 /* ToolPalette.cpp in Sources */,
+				5718EABA2B551047008A62B8 /* nfd_cocoa.m in Sources */,
 				57C37BAD2958E52C0055BC50 /* FileIo.cpp in Sources */,
 				57C37B9C2958E4FF0055BC50 /* Traffic.cpp in Sources */,
 				57C37BAF2958E52C0055BC50 /* MiniMapWindow.cpp in Sources */,
@@ -489,7 +527,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -541,7 +579,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 13.1;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
@@ -553,18 +591,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = "Micropolis-SDL2PP/Micropolis_SDL2PP.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					../../Frameworks/,
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "../nativefiledialog-extended/src/include";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.simulation-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -572,6 +613,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "lairworks.Micropolis-SDL2PP";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -584,18 +626,21 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_ENTITLEMENTS = "Micropolis-SDL2PP/Micropolis_SDL2PP.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
-					../../Frameworks/,
 				);
 				GENERATE_INFOPLIST_FILE = YES;
+				HEADER_SEARCH_PATHS = "../nativefiledialog-extended/src/include";
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.simulation-games";
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INFOPLIST_KEY_NSMainNibFile = MainMenu;
 				INFOPLIST_KEY_NSPrincipalClass = NSApplication;
@@ -603,6 +648,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "lairworks.Micropolis-SDL2PP";
 				PRODUCT_NAME = "$(TARGET_NAME)";

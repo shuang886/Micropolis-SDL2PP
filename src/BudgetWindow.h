@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -9,6 +9,10 @@
 // it under the terms of the GNU GPLv3, with additional terms. See the README
 // file, included in this distribution, for details.
 #pragma once
+
+#include <memory>
+
+#include <functional>
 
 #include <SDL2/SDL.h>
 
@@ -46,30 +50,24 @@ public:
 	const BudgetWindow& operator=(const BudgetWindow&) = delete;
 
 	BudgetWindow(SDL_Renderer* renderer, const StringRender& stringRenderer, Budget& budget);
-	~BudgetWindow() override;
-
-	void reset();
-
-	bool accepted() const { return mAccepted; }
-
-	void injectMouseDown(const Point<int>& pos) override;
-	void injectMouseUp() override;
 
 	void draw() override;
 	void update() override;
 
 private:
+	void onMouseDown(const Point<int>& pos) override;
+	void onMouseUp() override;
+
 	void handleMouseDown(const ButtonId id);
 
 	void onPositionChanged(const Point<int>& pos) override;
 
 	Budget& mBudget;
-	bool mAccepted{ false };
 
 	SDL_Renderer* mRenderer{ nullptr };
 	const StringRender& mStringRenderer;
 
-	Font* mFont{ nullptr };
+	std::unique_ptr<Font> mFont;
 
 	Texture mTexture{};
 

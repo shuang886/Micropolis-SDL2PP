@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -24,7 +24,7 @@ public:
 	StringRender(SDL_Renderer* renderer);
 	~StringRender() = default;
 
-	void drawString(Font& font, std::string_view text, Point<int> position) const;
+	void drawString(Font& font, std::string_view text, const Point<int>& position) const;
 
 private:
 

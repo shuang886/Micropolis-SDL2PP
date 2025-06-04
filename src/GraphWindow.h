@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -27,16 +27,13 @@ public:
 	GraphWindow(SDL_Renderer*);
 	~GraphWindow() override = default;
 
-	void injectMouseDown(const Point<int>& position) override;
-	void injectMouseUp() override;
-	void injectMouseMotion(const Vector<int>& delta) override;
-
 	void draw() override;
 	void update() override;
 
 private:
 	void fillGraphPoints(Graph::PointsList&, const GraphHistory&);
 
+	void onMouseDown(const Point<int>& position) override;
 	void onMoved(const Vector<int>&) override;
 	void onPositionChanged(const Point<int>&) override;
 
@@ -44,6 +41,4 @@ private:
 	SDL_Renderer& mRenderer;
 	const Texture mTexture;
 	Texture mGraphTexture;
-
-	bool mDragging{ false };
 };

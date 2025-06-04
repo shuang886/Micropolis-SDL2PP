@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -480,7 +480,7 @@ void DoSPZone(bool powered, const CityProperties& properties)
         return;
 
     case NUCLEAR:
-        if (!NoDisasters && !RandomRange(0, MltdwnTab[properties.GameLevel()]))
+        if (disastersEnabled() && !RandomRange(0, MltdwnTab[properties.GameLevel()]))
         {
             DoMeltdown(SimulationTarget.x, SimulationTarget.y);
             return;
@@ -625,9 +625,10 @@ void MapScan(int x1, int x2, const CityProperties& properties)
             CurrentTile = Map[x][y];
             if (CurrentTile != 0)
             {
-                CurrentTileMasked = CurrentTile & LOMASK;	// Mask off status bits
+                //CurrentTileMasked = CurrentTile & LOMASK;	// Mask off status bits
 
-                const int tile = maskedTileValue(x, y);
+                //const int tile = maskedTileValue(x, y);
+                CurrentTileMasked = maskedTileValue(CurrentTile);
 
                 if (CurrentTileMasked >= FLOOD)
                 {
@@ -672,7 +673,7 @@ void MapScan(int x1, int x2, const CityProperties& properties)
                         continue;
                     }
 
-                    if ((tile >= RAILBASE) && (tile < ResidentialBase))
+                    if ((CurrentTileMasked >= RAILBASE) && (CurrentTileMasked < ResidentialBase))
                     {
                         DoRail({ x, y });
                         continue;
@@ -711,7 +712,7 @@ void SetValves(const CityProperties& properties, const Budget& budget)
     MiscHis[13] = CrimeAverage;
     MiscHis[14] = PolluteAverage;
     MiscHis[15] = properties.GameLevel();
-    MiscHis[16] = cityClass();
+    MiscHis[16] = static_cast<int>(cityClass());
     MiscHis[17] = cityScore();
 
     NormResPop = static_cast<float>(ResPop / 8);
@@ -1162,12 +1163,12 @@ void SimLoadInit(CityProperties& properties)
 
     SetCommonInits();
 
-    cityClass(MiscHis[16]);
+    cityClass(static_cast<CityClass>(MiscHis[16]));
     cityScore(MiscHis[17]);
 
-    if ((cityClass() > 5) || (cityClass() < 0))
+    if ((cityClass() > CityClass::Megalopolis) || (cityClass() < CityClass::Village))
     {
-        cityClass(0);
+        cityClass(CityClass::Village);
     }
     if ((cityScore() > 999) || (cityScore() < 1))
     {

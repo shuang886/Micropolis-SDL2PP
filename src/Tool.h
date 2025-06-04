@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -12,6 +12,7 @@
 
 #include "Point.h"
 #include "Vector.h"
+#include "w_resrc.h"
 
 #include <map>
 #include <string>
@@ -69,6 +70,8 @@ bool tally(int tileValue);
 
 const ToolProperties& toolProperties(const Tool);
 const ToolProperties& pendingToolProperties();
+
+const ZoneStats& queryResult();
 
 Tool pendingTool();
 void pendingTool(const Tool);

@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -139,10 +139,12 @@ BudgetWindow::BudgetWindow(SDL_Renderer* renderer, const StringRender& stringRen
 	mBudget(budget),
 	mRenderer(renderer),
 	mStringRenderer(stringRenderer),
-	mFont(new Font("res/raleway-medium.ttf", 14)),
+	mFont(new Font("res/Raleway-Medium.ttf", 14)),
 	mTexture(loadTexture(renderer, "images/budget.png"))
 {
     size({456, 422});
+	closeButtonActive(false);
+	anchor();
     
 	for (auto id : buttons)
 	{
@@ -155,18 +157,6 @@ BudgetWindow::BudgetWindow(SDL_Renderer* renderer, const StringRender& stringRen
 	}
 
 	SDL_SetTextureColorMod(mFont->texture(), 0, 0, 0);
-}
-
-
-BudgetWindow::~BudgetWindow()
-{
-	delete mFont;
-}
-
-
-void BudgetWindow::reset()
-{
-	mAccepted = false;
 }
 
 
@@ -236,8 +226,8 @@ void BudgetWindow::handleMouseDown(const ButtonId id)
 		break;
 
 	case ButtonId::Accept:
-		mAccepted = true;
 		mButtonDownId = ButtonId::None;
+		hide();
 		break;
 
 	default:
@@ -248,7 +238,7 @@ void BudgetWindow::handleMouseDown(const ButtonId id)
 }
 
 
-void BudgetWindow::injectMouseDown(const Point<int>& pos)
+void BudgetWindow::onMouseDown(const Point<int>& pos)
 {
 	for (auto id : buttons)
 	{
@@ -263,7 +253,7 @@ void BudgetWindow::injectMouseDown(const Point<int>& pos)
 }
 
 
-void BudgetWindow::injectMouseUp()
+void BudgetWindow::onMouseUp()
 {
 	mButtonDownId = ButtonId::None;
 }

@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -200,21 +200,21 @@ void DoScenarioScore(int type)
     switch (type)
     {
     case 1:	/* Dullsville */
-        if (cityClass() >= 4)
+        if (cityClass() >= CityClass::Metropolis)
         {
             z = -100;
         }
         break;
 
     case 2:	/* San Francisco */
-        if (cityClass() >= 4)
+        if (cityClass() >= CityClass::Metropolis)
         {
             z = -100;
         }
         break;
 
     case 3:	/* Hamburg */
-        if (cityClass() >= 4)
+        if (cityClass() >= CityClass::Metropolis)
         {
             z = -100;
         }

@@ -1,7 +1,7 @@
 // This file is part of Micropolis-SDL2PP
 // Micropolis-SDL2PP is based on Micropolis
 //
-// Copyright © 2022 Leeor Dicker
+// Copyright © 2022 - 2024 Leeor Dicker
 //
 // Portions Copyright © 1989-2007 Electronic Arts Inc.
 //
@@ -13,10 +13,14 @@
 #include "WindowBase.h"
 
 #include "Font.h"
+#include "StringRender.h"
 #include "Texture.h"
 
 #include <memory>
 #include <SDL2/SDL.h>
+
+
+#include "Evaluation.h"
 
 
 class EvaluationWindow : public WindowBase
@@ -27,15 +31,31 @@ public:
     const EvaluationWindow operator=(const EvaluationWindow&) = delete;
     
     EvaluationWindow(SDL_Renderer* renderer);
+
+    void setEvaluation(const Evaluation& evaluation);
     
     void draw() override;
-    void update() override;
-    
-    void injectMouseDown(const Point<int>& position) override;
-    void injectMouseUp() override;
+    void update() override {}
+
+private:
+    void drawYesNoPanel();
+    void drawOpinionPanel();
+    void drawStatsPanel();
+    void drawScorePanel();
     
 private:
-    Font* mFont{ nullptr };
+    std::unique_ptr<Font> mFont;
+    std::unique_ptr<Font> mFontBold;
+    std::unique_ptr<Font> mFontSemiBold;
+
+    const int mLineSpacing{ 0 };
+    const int mTitleSpacing{ 0 };
+
     Texture mTexture;
+    Texture mTextTexture;
+
     SDL_Renderer* mRenderer{ nullptr };
+
+    Evaluation mEvaluation;
+    StringRender mStringRenderer;
 };
