@@ -61,6 +61,7 @@
 		B0A420A52DF0E7B000EF65D4 /* SDL2_image.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0A420A02DF0E7B000EF65D4 /* SDL2_image.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		B0A420A62DF0E7B000EF65D4 /* SDL2_ttf.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B0A420A12DF0E7B000EF65D4 /* SDL2_ttf.framework */; };
 		B0A420A72DF0E7B000EF65D4 /* SDL2_ttf.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = B0A420A12DF0E7B000EF65D4 /* SDL2_ttf.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		B0A420AE2DF0EB2D00EF65D4 /* WindowGroup.cpp in Sources */ = {isa = PBXBuildFile; fileRef = B0A420AD2DF0EB2D00EF65D4 /* WindowGroup.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -184,6 +185,8 @@
 		B0A4209F2DF0E7B000EF65D4 /* SDL2.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2.framework; path = ../../Frameworks/SDL2.framework; sourceTree = "<group>"; };
 		B0A420A02DF0E7B000EF65D4 /* SDL2_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_image.framework; path = ../../Frameworks/SDL2_image.framework; sourceTree = "<group>"; };
 		B0A420A12DF0E7B000EF65D4 /* SDL2_ttf.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL2_ttf.framework; path = ../../Frameworks/SDL2_ttf.framework; sourceTree = "<group>"; };
+		B0A420AC2DF0EB2D00EF65D4 /* WindowGroup.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = WindowGroup.h; path = ../src/WindowGroup.h; sourceTree = SOURCE_ROOT; };
+		B0A420AD2DF0EB2D00EF65D4 /* WindowGroup.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; name = WindowGroup.cpp; path = ../src/WindowGroup.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -267,6 +270,7 @@
 				57C37B582958E4FE0055BC50 /* w_update.cpp */,
 				57C37B442958E4FE0055BC50 /* w_util.cpp */,
 				57B5F54E2B2BEDBD00683BF7 /* WindowBase.cpp */,
+				B0A420AD2DF0EB2D00EF65D4 /* WindowGroup.cpp */,
 				57B5F54B2B2BECC300683BF7 /* WindowStack.cpp */,
 				57C37B462958E4FE0055BC50 /* Zone.cpp */,
 				57C37B322958E47C0055BC50 /* Micropolis_SDL2PP.entitlements */,
@@ -316,6 +320,7 @@
 				57C37B7A2958E4FF0055BC50 /* w_update.h */,
 				57C37B7B2958E4FF0055BC50 /* w_util.h */,
 				57C37B5A2958E4FE0055BC50 /* WindowBase.h */,
+				B0A420AC2DF0EB2D00EF65D4 /* WindowGroup.h */,
 				57B5F54C2B2BECC300683BF7 /* WindowStack.h */,
 				57C37B3A2958E4FE0055BC50 /* Zone.h */,
 				57C37B2B2958E47C0055BC50 /* Assets.xcassets */,
@@ -456,6 +461,7 @@
 				57C37B942958E4FF0055BC50 /* s_sim.cpp in Sources */,
 				57C37B8D2958E4FF0055BC50 /* Graphics.cpp in Sources */,
 				5718EABC2B552B74008A62B8 /* QueryWindow.cpp in Sources */,
+				B0A420AE2DF0EB2D00EF65D4 /* WindowGroup.cpp in Sources */,
 				57B5F54D2B2BECC300683BF7 /* WindowStack.cpp in Sources */,
 				57E2ED752B5E219000E7E8B6 /* OptionsWindow.cpp in Sources */,
 				57C37B972958E4FF0055BC50 /* ToolPalette.cpp in Sources */,
